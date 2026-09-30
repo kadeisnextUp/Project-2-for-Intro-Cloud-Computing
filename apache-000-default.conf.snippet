@@ -4,7 +4,7 @@
         WSGIDaemonProcess flaskapp threads=5 user=ubuntu group=ubuntu
         WSGIScriptAlias / /var/www/html/flaskapp/flaskapp.wsgi
 
-        <Directory flaskapp>
+        <Directory /var/www/html/flaskapp>
             WSGIProcessGroup flaskapp
             WSGIApplicationGroup %{GLOBAL}
             Require all granted
