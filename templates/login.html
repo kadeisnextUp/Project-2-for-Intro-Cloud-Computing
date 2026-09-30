@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<h1>Log in</h1>
+<p class="lede">Enter your username and password to see your saved details.</p>
+
+<form class="panel" method="POST" action="{{ url_for('login') }}">
+  <label for="username" style="margin-top:0">Username</label>
+  <input type="text" id="username" name="username" value="{{ username }}" required autocomplete="username" autofocus>
+  <label for="password">Password</label>
+  <input type="password" id="password" name="password" required autocomplete="current-password">
+  <p style="margin:1.5rem 0 0"><button class="btn" type="submit">Log in</button></p>
+</form>
+<p class="switch">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+{% endblock %}

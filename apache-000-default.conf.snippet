@@ -1,0 +1,11 @@
+# Paste these lines into /etc/apache2/sites-enabled/000-default.conf,
+# right after the line "DocumentRoot /var/www/html"
+
+        WSGIDaemonProcess flaskapp threads=5 user=ubuntu group=ubuntu
+        WSGIScriptAlias / /var/www/html/flaskapp/flaskapp.wsgi
+
+        <Directory flaskapp>
+            WSGIProcessGroup flaskapp
+            WSGIApplicationGroup %{GLOBAL}
+            Require all granted
+        </Directory>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Accounts{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --mist: #E9EEF3;
+      --paper: #FFFFFF;
+      --ink: #17202B;
+      --muted: #5A6776;
+      --line: #CBD4DE;
+      --red: #B0152B;
+      --ok: #1E6B45;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--mist);
+      color: var(--ink);
+      font: 400 1rem/1.55 "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    header {
+      border-top: 6px solid var(--red);
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    header .wrap { display: flex; justify-content: space-between; align-items: center; padding-block: .9rem; }
+    header a { color: var(--ink); text-decoration: none; font-weight: 600; }
+    header nav a { margin-left: 1.25rem; font-weight: 400; color: var(--muted); }
+    header nav a:hover { color: var(--red); }
+    .wrap { max-width: 36rem; margin: 0 auto; padding-inline: 1.25rem; }
+    main { padding-block: 2.5rem 4rem; }
+    h1 { font-size: 2rem; font-weight: 800; line-height: 1.15; margin: 0 0 .4rem; letter-spacing: -.01em; }
+    .lede { color: var(--muted); margin: 0 0 2rem; }
+    form.panel, section.panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1.5rem;
+    }
+    fieldset { border: 0; padding: 0; margin: 0 0 1.75rem; }
+    legend { font-weight: 600; font-size: 1.05rem; margin-bottom: .75rem; padding: 0; }
+    label { display: block; font-size: .9rem; font-weight: 600; margin: .9rem 0 .3rem; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+    input[type=text], input[type=password], input[type=email], textarea {
+      width: 100%;
+      font: inherit;
+      padding: .6rem .7rem;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: #FBFCFD;
+      color: var(--ink);
+    }
+    textarea { resize: vertical; min-height: 4.5rem; }
+    input:focus, textarea:focus, button:focus-visible, a:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--red) 35%, transparent);
+      outline-offset: 1px;
+      border-color: var(--red);
+    }
+    input[type=file] { font: inherit; font-size: .9rem; }
+    .hint { font-size: .85rem; color: var(--muted); margin: .35rem 0 0; }
+    .btn {
+      display: inline-block;
+      font: inherit; font-weight: 600;
+      padding: .65rem 1.2rem;
+      border-radius: 3px;
+      border: 1px solid var(--red);
+      background: var(--red);
+      color: #fff;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn:hover { background: #8F1022; }
+    .btn.quiet { background: transparent; color: var(--red); }
+    .btn.quiet:hover { background: color-mix(in srgb, var(--red) 8%, transparent); }
+    .switch { margin-top: 1.25rem; color: var(--muted); font-size: .95rem; }
+    .switch a { color: var(--red); }
+    .flash { padding: .75rem 1rem; border-radius: 3px; margin-bottom: 1.25rem; border-left: 4px solid; background: var(--paper); }
+    .flash.error { border-color: var(--red); }
+    .flash.ok { border-color: var(--ok); }
+    @media (max-width: 480px) { .row { grid-template-columns: 1fr; } h1 { font-size: 1.6rem; } }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="{{ url_for('index') }}">Accounts</a>
+      <nav>
+        {% if session.username %}
+          <a href="{{ url_for('profile') }}">Profile</a>
+          <a href="{{ url_for('logout') }}">Log out</a>
+        {% else %}
+          <a href="{{ url_for('register') }}">Register</a>
+          <a href="{{ url_for('login') }}">Log in</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}" role="status">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

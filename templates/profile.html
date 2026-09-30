@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{{ user.firstname }} {{ user.lastname }}{% endblock %}
+{% block head %}
+<style>
+  dl { margin: 0; display: grid; grid-template-columns: 7rem 1fr; gap: .7rem 1rem; }
+  dt { color: var(--muted); font-size: .9rem; padding-top: .1rem; }
+  dd { margin: 0; overflow-wrap: anywhere; white-space: pre-line; }
+  .count {
+    margin-top: 1.5rem;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 4px;
+    padding: 1.5rem;
+  }
+  .count .num { font-size: 4.5rem; font-weight: 800; line-height: 1; letter-spacing: -.03em; }
+  .count .file { color: #B9C4D0; margin: .5rem 0 1.25rem; overflow-wrap: anywhere; }
+  .count .btn { background: #fff; color: var(--ink); border-color: #fff; }
+  .count .btn:hover { background: #DDE4EB; }
+  .count.empty { background: var(--paper); color: var(--ink); border: 1px dashed var(--line); }
+  .replace { margin-top: 1.5rem; }
+  .replace form { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+  @media (max-width: 480px) { dl { grid-template-columns: 1fr; gap: .1rem; } dd { margin-bottom: .6rem; } }
+</style>
+{% endblock %}
+{% block content %}
+<h1>{{ user.firstname }} {{ user.lastname }}</h1>
+<p class="lede">Signed in as {{ user.username }}</p>
+
+<section class="panel" aria-label="Your details">git remote add origin
+  <dl>
+    <dt>First name</dt><dd>{{ user.firstname }}</dd>
+    <dt>Last name</dt><dd>{{ user.lastname }}</dd>
+    <dt>Email</dt><dd>{{ user.email }}</dd>
+    <dt>Address</dt><dd>{{ user.address }}</dd>
+  </dl>
+</section>
+
+{% if user.filename %}
+<section class="count" aria-label="Uploaded file">
+  <div class="num">{{ "{:,}".format(user.word_count) }}</div>
+  <div>{{ "word" if user.word_count == 1 else "words" }} in your file</div>
+  <p class="file">{{ user.filename[user.username|length + 1:] }}</p>
+  <a class="btn" href="{{ url_for('download') }}">Download file</a>
+</section>
+{% else %}
+<section class="count empty" aria-label="Uploaded file">
+  <p style="margin:0">No file yet. Upload a .txt file below to see its word count.</p>
+</section>
+{% endif %}
+
+<section class="replace">
+  <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+    <label for="file" style="margin:0">{{ "Replace file" if user.filename else "Upload a .txt file" }}</label>
+    <input type="file" id="file" name="file" accept=".txt" required>
+    <button class="btn quiet" type="submit">Upload</button>
+  </form>
+</section>
+{% endblock %}
