@@ -15,4 +15,5 @@ A Flask app for project 2 served by Apache (mod_wsgi) on Ubuntu 24.04 that lets 
 - `apache-000-default.conf.snippet`: lines added to Apache's site config
 
 ## Deployed on a EC2 instance
+- for whoever grades this use http instead of https for the DNS link
 
