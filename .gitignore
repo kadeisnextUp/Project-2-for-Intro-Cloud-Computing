@@ -1,0 +1,5 @@
+users.db
+uploads/
+secret_key.txt
+__pycache__/
+*.pem
